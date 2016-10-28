@@ -99,4 +99,15 @@ function _M.transform_json_body(conf, buffered_data)
   return cjson_encode(json_body) 
 end
 
+function _M.transform_body(conf, buffered_data)
+  local body = buffered_data
+  for _, regex in pairs(conf.replace.body) do
+    local pattern, replace = string.match(regex, "(.*) => (.*)")
+    --ngx.log(ngx.ERR, "Regex "..pattern.." to "..replace)
+    body = string.gsub(body, pattern, replace)
+  end
+
+  return body
+end
+
 return _M

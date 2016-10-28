@@ -39,7 +39,7 @@ local function is_json_body(content_type)
 end
 
 local function is_body_transform_set(conf)
-  return #conf.add.json > 0  or #conf.remove.json > 0 or #conf.replace.json > 0 or #conf.append.json > 0
+  return #conf.add.json > 0  or #conf.remove.json > 0 or #conf.replace.json > 0 or #conf.append.json > 0 or #conf.replace.body > 0
 end
 
 -- export utility functions

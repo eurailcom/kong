@@ -162,7 +162,8 @@ describe("Plugin: response-transformer", function()
           },
           replace = {
             json = {},
-            headers = {}
+            headers = {},
+            body = {}
           },
           add = {
             json = {},
@@ -203,7 +204,8 @@ describe("Plugin: response-transformer", function()
           },
           replace = {
             json = {"p1:v1", "p2:v1"},
-            headers = {"h1:v1", "h2:v2"}
+            headers = {"h1:v1", "h2:v2"},
+            body = {"p3 => p4"}
           },
           add = {
             json = {},
@@ -231,6 +233,7 @@ describe("Plugin: response-transformer", function()
         end)
         it("does not set content-length nil if any of json not set", function()
           conf.replace.json = {}
+          conf.replace.body = {}
           local ngx_headers = {[CONTENT_LENGTH] = "100", ["content-type"] = "application/json"}
           header_transformer.transform_headers(conf, ngx_headers)
           assert.equals('100', ngx_headers[CONTENT_LENGTH])
@@ -244,7 +247,8 @@ describe("Plugin: response-transformer", function()
           },
           replace = {
             json = {},
-            headers = {}
+            headers = {},
+            body = {}
           },
           add = {
             json = {"p1:v1", "p2:v1"},
@@ -285,7 +289,8 @@ describe("Plugin: response-transformer", function()
           },
           replace = {
             json = {},
-            headers = {}
+            headers = {},
+            body = {}
           },
           add = {
             json = {},

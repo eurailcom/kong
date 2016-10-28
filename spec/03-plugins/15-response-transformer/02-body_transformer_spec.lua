@@ -95,7 +95,8 @@ describe("Plugin: response-transformer", function()
           json = {}
         },
         replace = {
-          json = {"p1:v2", "p2:\"v2\""}
+          json = {"p1:v2", "p2:\"v2\""},
+          body = { "v(%d) => KONG%1", "vx => " }
         },
         add = {
           json = {}
@@ -121,6 +122,12 @@ describe("Plugin: response-transformer", function()
         local body = body_transformer.transform_json_body(conf, json)
         local body_json = cjson.decode(body)
         assert.same({p2 = '"v2"'}, body_json)
+      end)
+      it("gsub body replace", function()
+        local json = [[{"p1" : "v1", "p2" : "v2", "px" : "vx", "py" : "vy"}]]
+        local body = body_transformer.transform_body(conf, json)
+        local body_json = cjson.decode(body)
+        assert.same({p1 = 'KONG1', p2 = 'KONG2', px = '', py = 'vy'}, body_json)
       end)
     end)
 
@@ -205,6 +212,7 @@ describe("Plugin: response-transformer", function()
         replace = {
           headers = {},
           json = {},
+          body = {},
         },
       }
       local body = [[

@@ -29,6 +29,7 @@ function ResponseTransformerHandler:body_filter(conf)
     local chunk, eof = ngx.arg[1], ngx.arg[2]
     if eof then
       local body = body_filter.transform_json_body(conf, ngx.ctx.buffer)
+      body = body_filter.transform_body(conf, body)
       ngx.arg[1] = body
     else
       ngx.ctx.buffer = ngx.ctx.buffer..chunk
